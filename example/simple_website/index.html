@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>MAVLink WebSocket Example</h1>
+    <button onclick="connect()" id="connect_button" >connect</button>
+    <button onclick="disconnect()" id="disconnect_button">disconnect</button>
+    <p>Status: <span id="status">disconnected</span></p>
+    <div id="messages"></div>
+
+    <script>
+      let status = "disconnected";
+      let ws = null;
+      let delta_time = 0;
+      let last_time = null;
+      function connect() {
+        if (ws) {
+          console.log("WebSocket already connected");
+          return;
+        }
+        ws = new WebSocket("ws://localhost:8765");
+        last_time = performance.now();
+        document.getElementById("status").innerText = "connected";
+        ws.onmessage = function (event) {
+          delta_time = performance.now() - last_time;
+          last_time = performance.now();
+          console.log("Received:", event);
+          const msgDiv = document.getElementById("messages");
+          const message = JSON.parse(event.data);
+          console.log("Parsed message:", message);
+          msgDiv.innerHTML = `<span>${delta_time.toFixed(2)} ms</span><pre>${JSON.stringify(message, null, 2)}</pre>`;
+        };
+        ws.onopen = function () {
+          console.log("WebSocket connection established");
+          document.getElementById("connect_button").disabled = true;
+          document.getElementById("disconnect_button").disabled = false;
+        };
+        ws.onclose = function () {
+          console.log("WebSocket connection closed");
+          document.getElementById("status").innerText = "disconnected";
+                    document.getElementById("connect_button").disabled = false;
+          document.getElementById("disconnect_button").disabled = true;
+        };
+      }
+      function disconnect() {
+        if (ws) {
+          ws.close();
+          ws = null;
+          document.getElementById("status").innerText = "disconnected";
+        }
+      }
+    </script>
+  </body>
+</html>

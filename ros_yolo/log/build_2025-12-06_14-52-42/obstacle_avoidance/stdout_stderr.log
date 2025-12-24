@@ -1,0 +1,27 @@
+running develop
+Removing /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages/obstacle-avoidance.egg-link (link to .)
+running egg_info
+writing ../../build/obstacle_avoidance/obstacle_avoidance.egg-info/PKG-INFO
+writing dependency_links to ../../build/obstacle_avoidance/obstacle_avoidance.egg-info/dependency_links.txt
+writing entry points to ../../build/obstacle_avoidance/obstacle_avoidance.egg-info/entry_points.txt
+writing requirements to ../../build/obstacle_avoidance/obstacle_avoidance.egg-info/requires.txt
+writing top-level names to ../../build/obstacle_avoidance/obstacle_avoidance.egg-info/top_level.txt
+reading manifest file '../../build/obstacle_avoidance/obstacle_avoidance.egg-info/SOURCES.txt'
+writing manifest file '../../build/obstacle_avoidance/obstacle_avoidance.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+creating /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages/obstacle_avoidance
+copying /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/build/lib/obstacle_avoidance/avoidance_node.py -> /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages/obstacle_avoidance
+copying /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/build/lib/obstacle_avoidance/__init__.py -> /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages/obstacle_avoidance
+byte-compiling /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages/obstacle_avoidance/avoidance_node.py to avoidance_node.cpython-310.pyc
+byte-compiling /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages/obstacle_avoidance/__init__.py to __init__.cpython-310.pyc
+running install_data
+copying resource/obstacle_avoidance -> /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/ament_index/resource_index/packages
+copying package.xml -> /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance
+running install_egg_info
+Copying ../../build/obstacle_avoidance/obstacle_avoidance.egg-info to /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages/obstacle_avoidance-0.0.0-py3.10.egg-info
+running install_scripts
+Installing avoidance_node script to /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/obstacle_avoidance
+writing list of installed files to '/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/install.log'

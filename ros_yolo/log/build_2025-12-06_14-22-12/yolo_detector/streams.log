@@ -1,0 +1,36 @@
+[1.287s] Invoking command in '/home/salamut/asv_2025/ros_yolo/build/yolo_detector': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/yolo_detector/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build
+[1.537s] running develop
+[1.661s] Removing /home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages/yolo-detector.egg-link (link to .)
+[1.709s] Invoked command in '/home/salamut/asv_2025/ros_yolo/build/yolo_detector' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/yolo_detector/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build
+[1.712s] Invoking command in '/home/salamut/asv_2025/ros_yolo/src/yolo_detector': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/yolo_detector/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/yolo_detector build --build-base /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build install --record /home/salamut/asv_2025/ros_yolo/build/yolo_detector/install.log --single-version-externally-managed install_data --force
+[1.947s] running egg_info
+[1.948s] writing ../../build/yolo_detector/yolo_detector.egg-info/PKG-INFO
+[1.948s] writing dependency_links to ../../build/yolo_detector/yolo_detector.egg-info/dependency_links.txt
+[1.948s] writing entry points to ../../build/yolo_detector/yolo_detector.egg-info/entry_points.txt
+[1.948s] writing requirements to ../../build/yolo_detector/yolo_detector.egg-info/requires.txt
+[1.948s] writing top-level names to ../../build/yolo_detector/yolo_detector.egg-info/top_level.txt
+[1.950s] reading manifest file '../../build/yolo_detector/yolo_detector.egg-info/SOURCES.txt'
+[1.951s] writing manifest file '../../build/yolo_detector/yolo_detector.egg-info/SOURCES.txt'
+[1.951s] running build
+[1.951s] running build_py
+[1.951s] creating /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build
+[1.951s] creating /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build/lib
+[1.951s] creating /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build/lib/yolo_detector
+[1.951s] copying yolo_detector/__init__.py -> /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build/lib/yolo_detector
+[1.951s] copying yolo_detector/detector_node.py -> /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build/lib/yolo_detector
+[1.952s] running install
+[1.952s] running install_lib
+[1.953s] creating /home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages/yolo_detector
+[1.953s] copying /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build/lib/yolo_detector/__init__.py -> /home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages/yolo_detector
+[1.953s] copying /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build/lib/yolo_detector/detector_node.py -> /home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages/yolo_detector
+[1.954s] byte-compiling /home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages/yolo_detector/__init__.py to __init__.cpython-310.pyc
+[1.954s] byte-compiling /home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages/yolo_detector/detector_node.py to detector_node.cpython-310.pyc
+[1.954s] running install_data
+[1.955s] copying resource/yolo_detector -> /home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/ament_index/resource_index/packages
+[1.955s] copying package.xml -> /home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector
+[1.955s] running install_egg_info
+[1.957s] Copying ../../build/yolo_detector/yolo_detector.egg-info to /home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages/yolo_detector-0.0.0-py3.10.egg-info
+[1.958s] running install_scripts
+[1.977s] Installing detector_node script to /home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/yolo_detector
+[1.978s] writing list of installed files to '/home/salamut/asv_2025/ros_yolo/build/yolo_detector/install.log'
+[2.015s] Invoked command in '/home/salamut/asv_2025/ros_yolo/src/yolo_detector' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/yolo_detector/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/yolo_detector build --build-base /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build install --record /home/salamut/asv_2025/ros_yolo/build/yolo_detector/install.log --single-version-externally-managed install_data --force

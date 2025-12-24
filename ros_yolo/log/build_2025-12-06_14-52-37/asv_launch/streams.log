@@ -1,0 +1,19 @@
+[1.307s] Invoking command in '/home/salamut/asv_2025/ros_yolo/build/asv_launch': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/asv_launch/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/asv_launch/build --no-deps symlink_data --force
+[1.557s] running develop
+[1.673s] running egg_info
+[1.673s] writing asv_launch.egg-info/PKG-INFO
+[1.673s] writing dependency_links to asv_launch.egg-info/dependency_links.txt
+[1.673s] writing entry points to asv_launch.egg-info/entry_points.txt
+[1.673s] writing requirements to asv_launch.egg-info/requires.txt
+[1.673s] writing top-level names to asv_launch.egg-info/top_level.txt
+[1.675s] reading manifest file 'asv_launch.egg-info/SOURCES.txt'
+[1.675s] writing manifest file 'asv_launch.egg-info/SOURCES.txt'
+[1.677s] running build_ext
+[1.677s] Creating /home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/python3.10/site-packages/asv-launch.egg-link (link to .)
+[1.678s] 
+[1.678s] Installed /home/salamut/asv_2025/ros_yolo/build/asv_launch
+[1.678s] running symlink_data
+[1.678s] symbolically linking /home/salamut/asv_2025/ros_yolo/build/asv_launch/resource/asv_launch -> /home/salamut/asv_2025/ros_yolo/install/asv_launch/share/ament_index/resource_index/packages
+[1.678s] symbolically linking /home/salamut/asv_2025/ros_yolo/build/asv_launch/package.xml -> /home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch
+[1.678s] symbolically linking /home/salamut/asv_2025/ros_yolo/build/asv_launch/launch/asv_system.launch.py -> /home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/launch
+[1.707s] Invoked command in '/home/salamut/asv_2025/ros_yolo/build/asv_launch' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/asv_launch/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/asv_launch/build --no-deps symlink_data --force

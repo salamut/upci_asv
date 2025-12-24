@@ -1,0 +1,20 @@
+running egg_info
+writing ../../build/mav_interface/mav_interface.egg-info/PKG-INFO
+writing dependency_links to ../../build/mav_interface/mav_interface.egg-info/dependency_links.txt
+writing entry points to ../../build/mav_interface/mav_interface.egg-info/entry_points.txt
+writing requirements to ../../build/mav_interface/mav_interface.egg-info/requires.txt
+writing top-level names to ../../build/mav_interface/mav_interface.egg-info/top_level.txt
+reading manifest file '../../build/mav_interface/mav_interface.egg-info/SOURCES.txt'
+writing manifest file '../../build/mav_interface/mav_interface.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+running install_egg_info
+removing '/home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/python3.10/site-packages/mav_interface-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/mav_interface/mav_interface.egg-info to /home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/python3.10/site-packages/mav_interface-0.0.0-py3.10.egg-info
+running install_scripts
+Installing mav_monitor script to /home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/mav_interface
+Installing mission_master script to /home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/mav_interface
+writing list of installed files to '/home/salamut/asv_2025/ros_yolo/build/mav_interface/install.log'

@@ -1,0 +1,24 @@
+[1.269s] Invoking command in '/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/build --no-deps symlink_data
+[1.522s] running develop
+[1.638s] running egg_info
+[1.638s] creating obstacle_avoidance.egg-info
+[1.638s] writing obstacle_avoidance.egg-info/PKG-INFO
+[1.638s] writing dependency_links to obstacle_avoidance.egg-info/dependency_links.txt
+[1.639s] writing entry points to obstacle_avoidance.egg-info/entry_points.txt
+[1.639s] writing requirements to obstacle_avoidance.egg-info/requires.txt
+[1.639s] writing top-level names to obstacle_avoidance.egg-info/top_level.txt
+[1.639s] writing manifest file 'obstacle_avoidance.egg-info/SOURCES.txt'
+[1.640s] reading manifest file 'obstacle_avoidance.egg-info/SOURCES.txt'
+[1.640s] writing manifest file 'obstacle_avoidance.egg-info/SOURCES.txt'
+[1.641s] running build_ext
+[1.642s] Creating /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages/obstacle-avoidance.egg-link (link to .)
+[1.642s] Installing avoidance_node script to /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/obstacle_avoidance
+[1.642s] 
+[1.643s] Installed /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance
+[1.643s] running symlink_data
+[1.643s] creating /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/ament_index
+[1.644s] creating /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/ament_index/resource_index
+[1.644s] creating /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/ament_index/resource_index/packages
+[1.644s] symbolically linking /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/resource/obstacle_avoidance -> /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/ament_index/resource_index/packages
+[1.644s] symbolically linking /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/package.xml -> /home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance
+[1.687s] Invoked command in '/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/build --no-deps symlink_data

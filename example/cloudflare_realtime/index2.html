@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cloudflare Realtime Viewer (Fixed Playback)</title>
+  <style>
+    body {
+      background: #0e0e0e;
+      color: #eee;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    video {
+      width: 80%;
+      max-width: 960px;
+      background: #000;
+      border: 2px solid #444;
+      border-radius: 12px;
+    }
+    input, button {
+      margin: 6px;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Cloudflare Realtime Viewer (Fixed Playback)</h2>
+  <video id="video" autoplay playsinline muted controls></video>
+  <div>
+    <input id="appId" placeholder="App ID" size="60" value="d5493d021807cc99487480f8c0fc0872"/>
+    <input id="publisherSession" placeholder="Publisher Session ID" size="80" value="d51f487bc56a3f591e6ddc16592c320671452c8446437d474fcc8c9974974f17"/>
+    <input id="token" placeholder="Bearer Token" size="60" value="3e45e9edfaeaf0db5399b269cba3bc3b564f1c37c827120edc5f96be0c7118e9" />
+    <button id="startBtn">Start</button>
+  </div>
+
+  <script>
+    document.getElementById("startBtn").addEventListener("click", startViewer);
+
+    async function startViewer() {
+      const appId = document.getElementById("appId").value.trim();
+      const publisherSessionId = document.getElementById("publisherSession").value.trim();
+      const token = document.getElementById("token").value.trim();
+      const video = document.getElementById("video");
+
+      if (!appId || !publisherSessionId || !token) {
+        alert("Please fill in all fields first.");
+        return;
+      }
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      };
+
+      // 🔍 Fetch publisher session info
+      console.log("Fetching publisher session info...");
+      const sessionResp = await fetch(
+        `https://rtc.live.cloudflare.com/v1/apps/${appId}/sessions/${publisherSessionId}`,
+        { headers }
+      );
+
+      const sessionInfo = await sessionResp.json();
+      const activeTracks = sessionInfo.tracks?.filter(t => t.status === "active" && t.location === "local");
+      if (!activeTracks?.length) {
+        console.error("❌ No active tracks found");
+        return;
+      }
+      const trackName = activeTracks[0].trackName;
+      console.log("🎬 Active tracks:", activeTracks);
+
+      // Create viewer session
+      const createSession = await fetch(
+        `https://rtc.live.cloudflare.com/v1/apps/${appId}/sessions/new`,
+        { method: "POST", headers }
+      );
+      const viewerSession = await createSession.json();
+      const viewerSessionId = viewerSession.sessionId;
+      console.log("✅ Viewer session ID:", viewerSessionId);
+
+      // RTCPeerConnection
+      const pc = new RTCPeerConnection({ iceServers: [{ urls: ["stun:stun.l.google.com:19302"] }] });
+      pc.addTransceiver("video", { direction: "recvonly" });
+      pc.addTransceiver("audio", { direction: "recvonly" });
+
+      let streamSet = false;
+      pc.ontrack = (event) => {
+        console.log("🎥 Remote stream received:", event.streams);
+        const stream = event.streams[0];
+        if (!streamSet && stream && stream.getVideoTracks().length > 0) {
+          console.log("✅ Setting video stream with tracks:", stream.getVideoTracks());
+          streamSet = true;
+          setTimeout(() => { video.srcObject = stream; }, 100);
+        } else {
+          console.log("⚠️ Skipped empty or duplicate stream");
+        }
+      };
+
+      // Create offer
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+
+      await new Promise((resolve) => {
+        if (pc.iceGatheringState === "complete") resolve();
+        else pc.onicegatheringstatechange = () => {
+          if (pc.iceGatheringState === "complete") resolve();
+        };
+      });
+
+      const payload = {
+        sessionDescription: {
+          type: pc.localDescription.type,
+          sdp: pc.localDescription.sdp
+        },
+        tracks: [
+          { location: "remote", sessionId: publisherSessionId, trackName }
+        ]
+      };
+
+      const trackResp = await fetch(
+        `https://rtc.live.cloudflare.com/v1/apps/${appId}/sessions/${viewerSessionId}/tracks/new`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(payload)
+        }
+      );
+
+      const data = await trackResp.json();
+      await pc.setRemoteDescription(data.sessionDescription);
+
+      console.log("✅ Viewer connected and playing track:", trackName);
+    }
+  </script>
+</body>
+</html>

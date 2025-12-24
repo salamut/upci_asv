@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>MAVLink WebSocket Example</h1>
+    <button onclick="connect()" id="connect_button">connect</button>
+    <button onclick="disconnect()" id="disconnect_button">disconnect</button>
+    <p>Status: <span id="status">disconnected</span></p>
+    <img src="/image" id="image" alt="Image will appear here" />
+    <div id="messages"></div>
+
+    <script>
+      let status = "disconnected";
+      let ws = null;
+      let delta_time = 0;
+      let last_time = null;
+      let last_img_hash = null;
+      let last_img_update = 0;
+      function connect() {
+        if (ws) {
+          console.log("WebSocket already connected");
+          return;
+        }
+        ws = new WebSocket("ws://localhost:8080/ws");
+        last_time = performance.now();
+        document.getElementById("status").innerText = "connected";
+        ws.onmessage = function (event) {
+          delta_time = performance.now() - last_time;
+          last_time = performance.now();
+          const msgDiv = document.getElementById("messages");
+          const message = JSON.parse(event.data);
+          if (message.img_hash && message.img_hash !== last_img_hash) {
+            console.log("Image hash changed, fetching new image...");
+            last_img_hash = message.img_hash;
+            fetchImage();
+          }
+          msgDiv.innerHTML = `<span>${delta_time.toFixed(
+            2
+          )} ms</span><pre>${JSON.stringify(message, null, 2)}</pre>`;
+        };
+        ws.onopen = function () {
+          console.log("WebSocket connection established");
+          document.getElementById("connect_button").disabled = true;
+          document.getElementById("disconnect_button").disabled = false;
+        };
+        ws.onclose = function () {
+          console.log("WebSocket connection closed");
+          document.getElementById("status").innerText = "disconnected";
+          document.getElementById("connect_button").disabled = false;
+          document.getElementById("disconnect_button").disabled = true;
+        };
+      }
+      function disconnect() {
+        if (ws) {
+          ws.close();
+          ws = null;
+          document.getElementById("status").innerText = "disconnected";
+        }
+      }
+
+      async function fetchImage() {
+        now = performance.now();
+        delta = now - (last_img_update || 0);
+        console.log("Time since last image fetch:", delta);
+        if (delta < 500) {
+          // Throttle requests to at most one every 100ms
+          return;
+        }
+        last_img_update = now;
+        console.log("Fetching image...");
+        try {
+          const response = await fetch("http://localhost:8080/image", {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const blob = await response.blob();
+          const imgUrl = URL.createObjectURL(blob);
+          const imgElement = document.getElementById("image");
+          if (imgElement.dataset.oldUrl) {
+            URL.revokeObjectURL(imgElement.dataset.oldUrl); // Clean up old object URL
+          }
+          imgElement.src = imgUrl;
+          imgElement.width = 320; // Set desired width
+          imgElement.height = 240; // Set desired height
+          imgElement.dataset.oldUrl = imgUrl; // Store the current object URL for future cleanup
+        } catch (error) {
+          console.error("Error fetching image:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

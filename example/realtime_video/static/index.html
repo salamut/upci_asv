@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Realtime Viewer</title>
+  <style>
+    body {
+      background: #0e0e0e;
+      color: #eee;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    video {
+      width: 80%;
+      max-width: 960px;
+      background: #000;
+      border: 2px solid #444;
+      border-radius: 12px;
+    }
+
+    input,
+    button {
+      margin: 6px;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Cloudflare Realtime Viewer</h2>
+  <video id="video" autoplay playsinline muted controls></video>
+  <button id="startBtn">Start Viewer</button>
+  <script>
+    document.getElementById("startBtn").addEventListener("click", startViewer);
+    async function startViewer() {
+      const video = document.getElementById("video");
+      const publisherSessionId = "a8b014857ff57130b6fb0a5f7feacbe465afd89584d3683f2e346d529aebd820"
+      const resp = await fetch(`/get_ephemeral_viewer`);
+      const data = await resp.json();
+      const { appId, viewerSessionId} = data;
+
+      const pc = new RTCPeerConnection({ iceServers: [{ urls: ["stun:stun.l.google.com:19302"] }] });
+      pc.addTransceiver("video", { direction: "recvonly" });
+      pc.addTransceiver("audio", { direction: "recvonly" });
+      let streamSet = false;
+
+      pc.ontrack = (event) => {
+        console.log("🎥 Remote stream received:", event.streams);
+        const stream = event.streams[0];
+        if (!streamSet && stream && stream.getVideoTracks().length > 0) {
+          console.log("✅ Setting video stream with tracks:", stream.getVideoTracks());
+          streamSet = true;
+          setTimeout(() => { video.srcObject = stream ; }, 100);
+        }else {
+          console.log("⚠️ Skipped empty or duplicate stream");
+        }
+      };
+
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      console.log("Local description set with offer.");
+
+      // Wait for ICE gathering
+      await new Promise(resolve => {
+        if (pc.iceGatheringState === "complete") resolve();
+        else pc.onicegatheringstatechange = () => {
+          if (pc.iceGatheringState === "complete") resolve();
+        };
+      });
+      console.log("ICE gathering complete.");
+
+      // Send offer to CF SFU for viewer
+      const payload = {
+        sessionDescription: { type: pc.localDescription.type, sdp: pc.localDescription.sdp },
+        tracks: [
+          { location: "remote", sessionId: publisherSessionId, trackName: "cam_upper" },
+        ]
+      };
+
+      const trackResp = await fetch(
+        `/tracks/${viewerSessionId}`,
+        { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(payload) }
+      );
+      const trackData = await trackResp.json();
+      const answer = trackData.sessionDescription;
+      await pc.setRemoteDescription(answer);
+      console.log("✅ Viewer connected and playing track!");
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,281 @@
+[0.127s] [34mcolcon[0m [1;30mDEBUG[0m [32mCommand line arguments: ['/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon/__main__.py', 'build'][0m
+[0.127s] [34mcolcon[0m [1;30mDEBUG[0m [32mParsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=12, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x71528f238bb0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x71528f238760>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x71528f238760>>)[0m
+[0.236s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(colcon_meta) check parameters
+[0.236s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) check parameters
+[0.236s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) check parameters
+[0.236s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) check parameters
+[0.236s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(colcon_meta) discover
+[0.236s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) discover
+[0.236s] [34mcolcon.colcon_core.package_discovery[0m [1;30mINFO[0m Crawling recursively for packages in '/home/salamut/asv_2025/ros_yolo'
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ignore'
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ignore_ament_install'
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['colcon_pkg']
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'colcon_pkg'
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['colcon_meta']
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'colcon_meta'
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['ros']
+[0.236s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ros'
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['cmake', 'python']
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'cmake'
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'python'
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['python_setup_py']
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'python_setup_py'
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) by extension 'ignore'
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) ignored
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.256s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) by extension 'ignore'
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) ignored
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) by extension 'ignore'
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) ignored
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ignore'
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ignore_ament_install'
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['colcon_pkg']
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'colcon_pkg'
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['colcon_meta']
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'colcon_meta'
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['ros']
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ros'
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['cmake', 'python']
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'cmake'
+[0.257s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'python'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['python_setup_py']
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'python_setup_py'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extensions ['ignore', 'ignore_ament_install']
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extension 'ignore'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extension 'ignore_ament_install'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extensions ['colcon_pkg']
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extension 'colcon_pkg'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extensions ['colcon_meta']
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extension 'colcon_meta'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extensions ['ros']
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/asv_launch) by extension 'ros'
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/asv_launch' with type 'ros.ament_python' and name 'asv_launch'[0m
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extensions ['ignore', 'ignore_ament_install']
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extension 'ignore'
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extension 'ignore_ament_install'
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extensions ['colcon_pkg']
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extension 'colcon_pkg'
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extensions ['colcon_meta']
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extension 'colcon_meta'
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extensions ['ros']
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/mav_interface) by extension 'ros'
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/mav_interface' with type 'ros.ament_python' and name 'mav_interface'[0m
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extensions ['ignore', 'ignore_ament_install']
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extension 'ignore'
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extension 'ignore_ament_install'
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extensions ['colcon_pkg']
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extension 'colcon_pkg'
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extensions ['colcon_meta']
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extension 'colcon_meta'
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extensions ['ros']
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/obstacle_avoidance) by extension 'ros'
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/obstacle_avoidance' with type 'ros.ament_python' and name 'obstacle_avoidance'[0m
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extensions ['ignore', 'ignore_ament_install']
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extension 'ignore'
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extension 'ignore_ament_install'
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extensions ['colcon_pkg']
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extension 'colcon_pkg'
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extensions ['colcon_meta']
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extension 'colcon_meta'
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extensions ['ros']
+[0.263s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/yolo_detector) by extension 'ros'
+[0.264s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/yolo_detector' with type 'ros.ament_python' and name 'yolo_detector'[0m
+[0.264s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) using defaults
+[0.264s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) discover
+[0.264s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) using defaults
+[0.264s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) discover
+[0.264s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) using defaults
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'cmake_args' from command line to 'None'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'cmake_target' from command line to 'None'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'cmake_clean_cache' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'cmake_clean_first' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'cmake_force_configure' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'ament_cmake_args' from command line to 'None'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'catkin_cmake_args' from command line to 'None'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'asv_launch' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'asv_launch' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/salamut/asv_2025/ros_yolo/build/asv_launch', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/salamut/asv_2025/ros_yolo/install/asv_launch', 'merge_install': False, 'path': '/home/salamut/asv_2025/ros_yolo/src/asv_launch', 'symlink_install': False, 'test_result_base': None}[0m
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'cmake_args' from command line to 'None'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'cmake_target' from command line to 'None'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'cmake_clean_cache' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'cmake_clean_first' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'cmake_force_configure' from command line to 'False'
+[0.287s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'ament_cmake_args' from command line to 'None'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'catkin_cmake_args' from command line to 'None'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'mav_interface' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'mav_interface' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/salamut/asv_2025/ros_yolo/build/mav_interface', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/salamut/asv_2025/ros_yolo/install/mav_interface', 'merge_install': False, 'path': '/home/salamut/asv_2025/ros_yolo/src/mav_interface', 'symlink_install': False, 'test_result_base': None}[0m
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'cmake_args' from command line to 'None'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'cmake_target' from command line to 'None'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'cmake_clean_cache' from command line to 'False'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'cmake_clean_first' from command line to 'False'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'cmake_force_configure' from command line to 'False'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'ament_cmake_args' from command line to 'None'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'catkin_cmake_args' from command line to 'None'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'obstacle_avoidance' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'obstacle_avoidance' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance', 'merge_install': False, 'path': '/home/salamut/asv_2025/ros_yolo/src/obstacle_avoidance', 'symlink_install': False, 'test_result_base': None}[0m
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'cmake_args' from command line to 'None'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'cmake_target' from command line to 'None'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'cmake_clean_cache' from command line to 'False'
+[0.288s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'cmake_clean_first' from command line to 'False'
+[0.289s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'cmake_force_configure' from command line to 'False'
+[0.289s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'ament_cmake_args' from command line to 'None'
+[0.289s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'catkin_cmake_args' from command line to 'None'
+[0.289s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'yolo_detector' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.289s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'yolo_detector' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/salamut/asv_2025/ros_yolo/build/yolo_detector', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/salamut/asv_2025/ros_yolo/install/yolo_detector', 'merge_install': False, 'path': '/home/salamut/asv_2025/ros_yolo/src/yolo_detector', 'symlink_install': False, 'test_result_base': None}[0m
+[0.289s] [34mcolcon.colcon_core.executor[0m [1;30mINFO[0m Executing jobs using 'parallel' executor
+[0.290s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mrun_until_complete[0m
+[0.290s] [34mcolcon.colcon_ros.task.ament_python.build[0m [1;30mINFO[0m Building ROS package in '/home/salamut/asv_2025/ros_yolo/src/asv_launch' with build type 'ament_python'
+[0.290s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('asv_launch', 'ament_prefix_path')
+[0.292s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.292s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/hook/ament_prefix_path.ps1'
+[0.293s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/hook/ament_prefix_path.dsv'
+[0.294s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/hook/ament_prefix_path.sh'
+[0.295s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.295s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.299s] [34mcolcon.colcon_ros.task.ament_python.build[0m [1;30mINFO[0m Building ROS package in '/home/salamut/asv_2025/ros_yolo/src/mav_interface' with build type 'ament_python'
+[0.299s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('mav_interface', 'ament_prefix_path')
+[0.300s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/hook/ament_prefix_path.ps1'
+[0.300s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/hook/ament_prefix_path.dsv'
+[0.301s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/hook/ament_prefix_path.sh'
+[0.302s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.302s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.306s] [34mcolcon.colcon_ros.task.ament_python.build[0m [1;30mINFO[0m Building ROS package in '/home/salamut/asv_2025/ros_yolo/src/obstacle_avoidance' with build type 'ament_python'
+[0.306s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('obstacle_avoidance', 'ament_prefix_path')
+[0.307s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/hook/ament_prefix_path.ps1'
+[0.308s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/hook/ament_prefix_path.dsv'
+[0.309s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/hook/ament_prefix_path.sh'
+[0.309s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.309s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.312s] [34mcolcon.colcon_ros.task.ament_python.build[0m [1;30mINFO[0m Building ROS package in '/home/salamut/asv_2025/ros_yolo/src/yolo_detector' with build type 'ament_python'
+[0.312s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('yolo_detector', 'ament_prefix_path')
+[0.313s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/hook/ament_prefix_path.ps1'
+[0.313s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/hook/ament_prefix_path.dsv'
+[0.314s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/hook/ament_prefix_path.sh'
+[0.315s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.315s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.557s] [34mcolcon.colcon_core.task.python.build[0m [1;30mINFO[0m Building Python package in '/home/salamut/asv_2025/ros_yolo/src/asv_launch'
+[0.558s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.558s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.788s] [34mcolcon.colcon_core.task.python.build[0m [1;30mINFO[0m Building Python package in '/home/salamut/asv_2025/ros_yolo/src/mav_interface'
+[0.788s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.788s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[1.028s] [34mcolcon.colcon_core.task.python.build[0m [1;30mINFO[0m Building Python package in '/home/salamut/asv_2025/ros_yolo/src/obstacle_avoidance'
+[1.029s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.029s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[1.252s] [34mcolcon.colcon_core.task.python.build[0m [1;30mINFO[0m Building Python package in '/home/salamut/asv_2025/ros_yolo/src/yolo_detector'
+[1.252s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.253s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[1.586s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/build[0m
+[1.589s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/salamut/asv_2025/ros_yolo/build/asv_launch': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/asv_launch/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/asv_launch/build[0m
+[1.591s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/salamut/asv_2025/ros_yolo/build/yolo_detector': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/yolo_detector/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build[0m
+[1.600s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/salamut/asv_2025/ros_yolo/build/mav_interface': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/mav_interface/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/mav_interface/build[0m
+[1.991s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/salamut/asv_2025/ros_yolo/build/asv_launch' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/asv_launch/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/asv_launch/build[0m
+[1.994s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/salamut/asv_2025/ros_yolo/src/asv_launch': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/asv_launch/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/asv_launch build --build-base /home/salamut/asv_2025/ros_yolo/build/asv_launch/build install --record /home/salamut/asv_2025/ros_yolo/build/asv_launch/install.log --single-version-externally-managed install_data --force[0m
+[2.001s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/build[0m
+[2.004s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/salamut/asv_2025/ros_yolo/src/obstacle_avoidance': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/obstacle_avoidance build --build-base /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/build install --record /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/install.log --single-version-externally-managed install_data --force[0m
+[2.010s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/salamut/asv_2025/ros_yolo/build/mav_interface' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/mav_interface/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/mav_interface/build[0m
+[2.013s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/salamut/asv_2025/ros_yolo/src/mav_interface': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/mav_interface/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/mav_interface build --build-base /home/salamut/asv_2025/ros_yolo/build/mav_interface/build install --record /home/salamut/asv_2025/ros_yolo/build/mav_interface/install.log --single-version-externally-managed install_data --force[0m
+[2.022s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/salamut/asv_2025/ros_yolo/build/yolo_detector' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/yolo_detector/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build[0m
+[2.025s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/salamut/asv_2025/ros_yolo/src/yolo_detector': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/yolo_detector/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/yolo_detector build --build-base /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build install --record /home/salamut/asv_2025/ros_yolo/build/yolo_detector/install.log --single-version-externally-managed install_data --force[0m
+[2.280s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/salamut/asv_2025/ros_yolo/src/asv_launch' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/asv_launch/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/asv_launch build --build-base /home/salamut/asv_2025/ros_yolo/build/asv_launch/build install --record /home/salamut/asv_2025/ros_yolo/build/asv_launch/install.log --single-version-externally-managed install_data --force[0m
+[2.283s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/asv_launch' for CMake module files
+[2.283s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/asv_launch' for CMake config files
+[2.284s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib'
+[2.284s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/asv_launch/bin'
+[2.284s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/pkgconfig/asv_launch.pc'
+[2.285s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/asv_launch/lib/python3.10/site-packages'
+[2.285s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('asv_launch', 'pythonpath')
+[2.285s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/hook/pythonpath.ps1'
+[2.286s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/hook/pythonpath.dsv'
+[2.286s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/hook/pythonpath.sh'
+[2.287s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/asv_launch/bin'
+[2.287s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(asv_launch)
+[2.287s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/package.ps1'
+[2.289s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/package.dsv'
+[2.289s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/package.sh'
+[2.290s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/package.bash'
+[2.291s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/asv_launch/package.zsh'
+[2.293s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/salamut/asv_2025/ros_yolo/install/asv_launch/share/colcon-core/packages/asv_launch)
+[2.302s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance' for CMake module files
+[2.302s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/salamut/asv_2025/ros_yolo/src/obstacle_avoidance' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/obstacle_avoidance build --build-base /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/build install --record /home/salamut/asv_2025/ros_yolo/build/obstacle_avoidance/install.log --single-version-externally-managed install_data --force[0m
+[2.303s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance' for CMake config files
+[2.303s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib'
+[2.303s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/bin'
+[2.303s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/pkgconfig/obstacle_avoidance.pc'
+[2.304s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/lib/python3.10/site-packages'
+[2.304s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('obstacle_avoidance', 'pythonpath')
+[2.304s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/hook/pythonpath.ps1'
+[2.305s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/hook/pythonpath.dsv'
+[2.305s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/hook/pythonpath.sh'
+[2.306s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/bin'
+[2.306s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(obstacle_avoidance)
+[2.306s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/package.ps1'
+[2.307s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/package.dsv'
+[2.308s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/package.sh'
+[2.308s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/package.bash'
+[2.309s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/obstacle_avoidance/package.zsh'
+[2.309s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/salamut/asv_2025/ros_yolo/install/obstacle_avoidance/share/colcon-core/packages/obstacle_avoidance)
+[2.318s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/mav_interface' for CMake module files
+[2.319s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/salamut/asv_2025/ros_yolo/src/mav_interface' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/mav_interface/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/mav_interface build --build-base /home/salamut/asv_2025/ros_yolo/build/mav_interface/build install --record /home/salamut/asv_2025/ros_yolo/build/mav_interface/install.log --single-version-externally-managed install_data --force[0m
+[2.320s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/mav_interface' for CMake config files
+[2.321s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/mav_interface/lib'
+[2.321s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/mav_interface/bin'
+[2.321s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/pkgconfig/mav_interface.pc'
+[2.321s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/mav_interface/lib/python3.10/site-packages'
+[2.321s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('mav_interface', 'pythonpath')
+[2.322s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/hook/pythonpath.ps1'
+[2.323s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/hook/pythonpath.dsv'
+[2.324s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/hook/pythonpath.sh'
+[2.325s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/mav_interface/bin'
+[2.325s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(mav_interface)
+[2.326s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/package.ps1'
+[2.327s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/package.dsv'
+[2.327s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/package.sh'
+[2.328s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/package.bash'
+[2.329s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/mav_interface/package.zsh'
+[2.330s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/salamut/asv_2025/ros_yolo/install/mav_interface/share/colcon-core/packages/mav_interface)
+[2.331s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/yolo_detector' for CMake module files
+[2.333s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/yolo_detector' for CMake config files
+[2.333s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/salamut/asv_2025/ros_yolo/src/yolo_detector' returned '0': PYTHONPATH=/home/salamut/asv_2025/ros_yolo/build/yolo_detector/prefix_override:/home/salamut/asv_2025/.venv/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(.venv) /home/salamut/asv_2025/.venv/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/yolo_detector build --build-base /home/salamut/asv_2025/ros_yolo/build/yolo_detector/build install --record /home/salamut/asv_2025/ros_yolo/build/yolo_detector/install.log --single-version-externally-managed install_data --force[0m
+[2.334s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib'
+[2.334s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/bin'
+[2.334s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/pkgconfig/yolo_detector.pc'
+[2.334s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/lib/python3.10/site-packages'
+[2.334s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('yolo_detector', 'pythonpath')
+[2.335s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/hook/pythonpath.ps1'
+[2.336s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/hook/pythonpath.dsv'
+[2.336s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/hook/pythonpath.sh'
+[2.337s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/bin'
+[2.338s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(yolo_detector)
+[2.338s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/package.ps1'
+[2.339s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/package.dsv'
+[2.339s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/package.sh'
+[2.340s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/package.bash'
+[2.341s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/yolo_detector/package.zsh'
+[2.341s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/salamut/asv_2025/ros_yolo/install/yolo_detector/share/colcon-core/packages/yolo_detector)
+[2.341s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mclosing loop[0m
+[2.342s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mloop closed[0m
+[2.342s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mrun_until_complete finished with '0'[0m
+[2.342s] [34mcolcon.colcon_core.event_reactor[0m [1;30mDEBUG[0m [32mjoining thread[0m
+[2.344s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.notify2': 'notify2' not found
+[2.345s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[2.345s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[2.345s] [34mcolcon.colcon_notification.desktop_notification[0m [1;30mINFO[0m Sending desktop notification using 'notify_send'
+[2.368s] [34mcolcon.colcon_core.event_reactor[0m [1;30mDEBUG[0m [32mjoined thread[0m
+[2.369s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/salamut/asv_2025/ros_yolo/install/local_setup.ps1'
+[2.371s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix util module '/home/salamut/asv_2025/ros_yolo/install/_local_setup_util_ps1.py'
+[2.374s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/salamut/asv_2025/ros_yolo/install/setup.ps1'
+[2.377s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/salamut/asv_2025/ros_yolo/install/local_setup.sh'
+[2.378s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix util module '/home/salamut/asv_2025/ros_yolo/install/_local_setup_util_sh.py'
+[2.379s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/salamut/asv_2025/ros_yolo/install/setup.sh'
+[2.381s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/salamut/asv_2025/ros_yolo/install/local_setup.bash'
+[2.382s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/salamut/asv_2025/ros_yolo/install/setup.bash'
+[2.384s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/salamut/asv_2025/ros_yolo/install/local_setup.zsh'
+[2.386s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/salamut/asv_2025/ros_yolo/install/setup.zsh'

@@ -1,0 +1,4 @@
+[console_scripts]
+mav_monitor = mav_interface.mav_monitor_node:main
+mission_master = mav_interface.mission_master_node:main
+
