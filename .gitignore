@@ -1,4 +1,4 @@
 # SITL
-sitl/*.bin
-sitl/logs/
-
+sitl/
+*.BIN
+*.bin
