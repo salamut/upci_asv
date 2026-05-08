@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ASV MAVROS Monitoring</title>
+
+    <!-- SOCKET IO -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+    <!-- LEAFLET -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background:#0f172a;
+            color:white;
+            font-family:Arial, sans-serif;
+        }
+
+        header{
+            background:#111827;
+            padding:20px;
+            border-bottom:2px solid cyan;
+        }
+
+        header h1{
+            color:cyan;
+        }
+
+        .container{
+            display:grid;
+            grid-template-columns:350px 1fr;
+            height:calc(100vh - 80px);
+        }
+
+        .sidebar{
+            background:#111827;
+            padding:20px;
+            overflow-y:auto;
+        }
+
+        .card{
+            background:#1e293b;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+        .card h2{
+            color:cyan;
+            margin-bottom:15px;
+        }
+
+        .value{
+            font-size:20px;
+            font-weight:bold;
+        }
+
+        #map{
+            width:100%;
+            height:100%;
+        }
+
+        .status-armed{
+            color:lime;
+        }
+
+        .status-disarmed{
+            color:red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>ASV MAVROS WEB MONITORING</h1>
+</header>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <!-- GPS -->
+        <div class="card">
+
+            <h2>GPS</h2>
+
+            <p>Latitude</p>
+            <div class="value" id="lat">
+                0
+            </div>
+
+            <br>
+
+            <p>Longitude</p>
+            <div class="value" id="lon">
+                0
+            </div>
+
+        </div>
+
+        <!-- MODE -->
+        <div class="card">
+
+            <h2>Status</h2>
+
+            <p>Mode</p>
+            <div class="value" id="mode">
+                UNKNOWN
+            </div>
+
+            <br>
+
+            <p>Armed</p>
+            <div class="value status-disarmed"
+                 id="armed">
+                 DISARMED
+            </div>
+
+        </div>
+
+        <!-- BATTERY -->
+        <div class="card">
+
+            <h2>Battery</h2>
+
+            <div class="value">
+                <span id="battery">0</span> %
+            </div>
+
+        </div>
+
+        <!-- SPEED -->
+        <div class="card">
+
+            <h2>Speed</h2>
+
+            <div class="value">
+                <span id="speed">0</span> m/s
+            </div>
+
+        </div>
+
+        <!-- HEADING -->
+        <div class="card">
+
+            <h2>Heading</h2>
+
+            <div class="value">
+                <span id="heading">0</span> °
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MAP -->
+    <div id="map"></div>
+
+</div>
+
+<script>
+
+    // =====================================================
+    // SOCKET
+    // =====================================================
+
+    const socket = io();
+
+    // =====================================================
+    // MAP
+    // =====================================================
+
+    const map = L.map('map').setView(
+        [-6.0, 107.0],
+        18
+    );
+
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            attribution:
+            '&copy; OpenStreetMap Contributors'
+        }
+    ).addTo(map);
+
+    // =====================================================
+    // ICON
+    // =====================================================
+
+    const boatIcon = L.icon({
+
+        iconUrl:
+        'https://cdn-icons-png.flaticon.com/512/595/595067.png',
+
+        iconSize: [50, 50],
+
+        iconAnchor: [25, 25]
+    });
+
+    // =====================================================
+    // MARKER
+    // =====================================================
+
+    let marker = L.marker(
+        [-6.0, 107.0],
+        {
+            icon: boatIcon
+        }
+    ).addTo(map);
+
+    // =====================================================
+    // TRAJECTORY
+    // =====================================================
+
+    let path = [];
+
+    let polyline = L.polyline(
+        path,
+        {
+            color:'cyan',
+            weight:4
+        }
+    ).addTo(map);
+
+    // =====================================================
+    // GPS UPDATE
+    // =====================================================
+
+    socket.on('gps', function(data){
+
+        console.log("GPS RECEIVED:", data);
+
+        let lat = data.latitude;
+        let lon = data.longitude;
+
+        // Update Text
+        document.getElementById('lat').innerText =
+            lat.toFixed(6);
+
+        document.getElementById('lon').innerText =
+            lon.toFixed(6);
+
+        // Update Marker
+        marker.setLatLng([lat, lon]);
+
+        // Center Map
+        map.setView([lat, lon]);
+
+        // Add Path
+        path.push([lat, lon]);
+
+        polyline.setLatLngs(path);
+
+    });
+
+    // =====================================================
+    // STATE UPDATE
+    // =====================================================
+
+    socket.on('state', function(data){
+
+        document.getElementById('mode').innerText =
+            data.mode;
+
+        let armedElement =
+            document.getElementById('armed');
+
+        if(data.armed){
+
+            armedElement.innerText = "ARMED";
+
+            armedElement.classList.remove(
+                "status-disarmed"
+            );
+
+            armedElement.classList.add(
+                "status-armed"
+            );
+        }
+        else{
+
+            armedElement.innerText = "DISARMED";
+
+            armedElement.classList.remove(
+                "status-armed"
+            );
+
+            armedElement.classList.add(
+                "status-disarmed"
+            );
+        }
+
+    });
+
+    // =====================================================
+    // BATTERY UPDATE
+    // =====================================================
+
+    socket.on('battery', function(data){
+
+        document.getElementById('battery').innerText =
+            data.battery;
+
+    });
+
+    // =====================================================
+    // SPEED UPDATE
+    // =====================================================
+
+    socket.on('speed', function(data){
+
+        document.getElementById('speed').innerText =
+            data.speed;
+
+    });
+
+    // =====================================================
+    // HEADING UPDATE
+    // =====================================================
+
+    socket.on('heading', function(data){
+
+        document.getElementById('heading').innerText =
+            data.heading;
+
+    });
+
+</script>
+
+</body>
+</html>
