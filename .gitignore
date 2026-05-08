@@ -1,0 +1,4 @@
+# SITL
+sitl/*.bin
+sitl/logs/
+
