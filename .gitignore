@@ -1,4 +1,19 @@
-# SITL
-sitl/
-*.BIN
-*.bin
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# ROS2
+build/
+install/
+log/
+
+# VSCode
+.vscode/
+
+# Data sementara
+*.csv
+*.xlsx
+
+# SITL logs
+sitl/logs/*
