@@ -1,351 +1,339 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASV · Stasiun Pemantauan</title>
 
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <title>ASV MAVROS Monitoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- SOCKET IO -->
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-
-    <!-- LEAFLET -->
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-        }
-
-        body{
-            background:#0f172a;
-            color:white;
-            font-family:Arial, sans-serif;
-        }
-
-        header{
-            background:#111827;
-            padding:20px;
-            border-bottom:2px solid cyan;
-        }
-
-        header h1{
-            color:cyan;
-        }
-
-        .container{
-            display:grid;
-            grid-template-columns:350px 1fr;
-            height:calc(100vh - 80px);
-        }
-
-        .sidebar{
-            background:#111827;
-            padding:20px;
-            overflow-y:auto;
-        }
-
-        .card{
-            background:#1e293b;
-            padding:20px;
-            margin-bottom:20px;
-            border-radius:10px;
-        }
-
-        .card h2{
-            color:cyan;
-            margin-bottom:15px;
-        }
-
-        .value{
-            font-size:20px;
-            font-weight:bold;
-        }
-
-        #map{
-            width:100%;
-            height:100%;
-        }
-
-        .status-armed{
-            color:lime;
-        }
-
-        .status-disarmed{
-            color:red;
-        }
-
-    </style>
-
+<style>
+:root{--bg:#080b10;--panel:#0d131b;--panel2:#111925;--line:#1c2733;--line2:#2a3a4a;
+  --text:#e8eef5;--muted:#74828f;--dim:#46535f;--accent:#2fe0c0;--accent-dim:#15806f;--amber:#f3b32b;--red:#ff5f5f;}
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Archivo',sans-serif;overflow:hidden;
+  background-image:radial-gradient(120% 80% at 80% -10%,rgba(47,224,192,.06),transparent 60%),
+    linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:auto,46px 46px,46px 46px;}
+.mono{font-family:'IBM Plex Mono',monospace}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(13,19,27,.95),rgba(13,19,27,.75));backdrop-filter:blur(6px)}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .glyph{width:34px;height:34px;border:1.5px solid var(--accent);border-radius:8px;display:grid;place-items:center;color:var(--accent);font-weight:800;box-shadow:0 0 22px rgba(47,224,192,.25) inset}
+.brand h1{font-size:16px;letter-spacing:.22em;font-weight:800;text-transform:uppercase}
+.brand .sub{font-size:10px;letter-spacing:.34em;color:var(--muted);text-transform:uppercase}
+.hud{display:flex;align-items:center;gap:22px}.clock{font-size:14px;letter-spacing:.1em;color:var(--muted)}
+.conn{display:flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--red)}.dot.live{background:var(--accent);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,224,192,.5)}70%{box-shadow:0 0 0 8px rgba(47,224,192,0)}100%{box-shadow:0 0 0 0 rgba(47,224,192,0)}}
+.layout{display:grid;grid-template-columns:340px 1fr;height:calc(100vh - 64px)}
+.rail{padding:16px;overflow-y:auto;border-right:1px solid var(--line);background:linear-gradient(180deg,rgba(13,19,27,.6),rgba(8,11,16,.6))}
+.rail::-webkit-scrollbar{width:6px}.rail::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;margin-bottom:13px;position:relative;overflow:hidden;opacity:0;transform:translateY(10px);animation:rise .5s forwards}
+.card::before{content:"";position:absolute;left:0;top:0;height:100%;width:3px;background:linear-gradient(var(--accent),var(--accent-dim));opacity:0;transition:.3s}
+.card:hover::before{opacity:.7}@keyframes rise{to{opacity:1;transform:none}}
+.card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.1s}.card:nth-child(3){animation-delay:.15s}
+.card:nth-child(4){animation-delay:.2s}.card:nth-child(5){animation-delay:.25s}.card:nth-child(6){animation-delay:.3s}
+.lbl{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.lbl::after{content:"";flex:1;height:1px;background:var(--line)}
+.row{display:flex;justify-content:space-between;align-items:baseline;margin:7px 0}
+.row .k{font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}.row .v{font-size:17px;font-weight:500}
+.xte-num{font-size:46px;font-weight:600;line-height:1;letter-spacing:-.01em}.xte-unit{font-size:15px;color:var(--muted);margin-left:6px}
+.xte-state{font-size:10px;letter-spacing:.24em;text-transform:uppercase;margin-top:6px}
+.bar{height:7px;border-radius:4px;background:var(--panel2);margin-top:10px;position:relative;overflow:hidden}
+.bar .fill{height:100%;width:0;border-radius:4px;background:var(--accent);transition:width .3s,background .3s}
+.bar .thr{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--text);opacity:.55}
+.thr-tag{font-size:9px;color:var(--muted);text-align:right;margin-top:5px;letter-spacing:.1em}
+.ministats{display:flex;gap:10px;margin-top:12px}
+.ministat{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.ministat .mk{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}.ministat .mv{font-size:16px;font-weight:600;margin-top:3px}
+#spark{width:100%;height:54px;display:block;margin-top:12px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line2)}
+.pill .pdot{width:7px;height:7px;border-radius:50%}.armed{color:var(--accent);border-color:var(--accent-dim)}.armed .pdot{background:var(--accent)}
+.disarmed{color:var(--red);border-color:#5a2530}.disarmed .pdot{background:var(--red)}
+.kin{display:flex;align-items:center;gap:16px}.kin .stats{flex:1}
+.compass{width:84px;height:84px;flex-shrink:0}.compass .card-ring{fill:none;stroke:var(--line);stroke-width:1.5}
+.compass .tick{stroke:var(--line2);stroke-width:1}.compass .needle{transition:transform .25s ease}
+.compass text{fill:var(--muted);font-size:9px;font-family:'IBM Plex Mono'}
+.wptbl-wrap{max-height:230px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+.wptbl-wrap::-webkit-scrollbar{width:6px}.wptbl-wrap::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+.wptbl{width:100%;border-collapse:collapse;font-size:12px}
+.wptbl th{position:sticky;top:0;background:var(--panel2);color:var(--muted);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px;text-align:left;font-weight:600}
+.wptbl td{padding:7px 8px;border-top:1px solid var(--line);font-family:'IBM Plex Mono'}
+.wptbl tr.gate{background:rgba(243,179,43,.05)}.wptbl tr.gate .tag{color:var(--amber)}
+.tag{font-size:10px;letter-spacing:.05em}.err-good{color:var(--accent)}.err-warn{color:var(--amber)}.err-bad{color:var(--red)}
+.btn-dl{margin-top:11px;width:100%;background:var(--accent);color:#04201b;border:none;padding:11px;border-radius:8px;font-family:'Archivo';font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-size:11px;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-dl:hover{filter:brightness(1.12)}
+#map{width:100%;height:100%;background:#0a0e13}.leaflet-container{background:#0a0e13}
+.boat-marker{position:relative;width:34px;height:34px}
+.boat-arrow{position:absolute;inset:0;display:grid;place-items:center;transition:transform .25s ease;filter:drop-shadow(0 0 6px rgba(47,224,192,.7))}
+.boat-arrow svg{width:26px;height:26px}
+.boat-pulse{position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:ring 2.4s infinite ease-out;opacity:0}
+@keyframes ring{0%{transform:scale(.4);opacity:.7}100%{transform:scale(1.8);opacity:0}}
+.gate-dot{background:var(--amber);width:11px;height:11px;border-radius:50%;border:2px solid #1a1306;box-shadow:0 0 8px rgba(243,179,43,.7)}
+.mapctl{position:absolute;left:14px;top:14px;z-index:600;display:flex;flex-direction:column;gap:7px}
+.btn{background:rgba(13,19,27,.9);border:1px solid var(--line);color:var(--muted);padding:8px 12px;border-radius:8px;font-size:11px;letter-spacing:.08em;cursor:pointer;font-family:'Archivo';text-transform:uppercase;backdrop-filter:blur(4px);transition:.18s;display:flex;align-items:center;gap:9px;min-width:150px}
+.btn:hover{border-color:var(--accent-dim);color:var(--text);transform:translateX(2px)}
+.btn.on{border-color:var(--accent);color:var(--accent);box-shadow:0 0 12px rgba(47,224,192,.18)}
+.btn .ic{font-size:13px;width:14px;text-align:center}
+.readout{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:600;background:rgba(13,19,27,.92);border:1px solid var(--accent-dim);color:var(--accent);border-radius:8px;padding:7px 14px;font-size:12px;letter-spacing:.1em;backdrop-filter:blur(4px);display:none}
+.legend{position:absolute;right:14px;bottom:14px;z-index:600;background:rgba(13,19,27,.9);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:11px;letter-spacing:.06em;backdrop-filter:blur(4px)}
+.legend .li{display:flex;align-items:center;gap:9px;margin:4px 0;color:var(--muted)}.legend .sw{width:18px;height:3px;border-radius:2px}
+.leaflet-popup-content-wrapper{background:#0d131b;color:var(--text);border:1px solid var(--line2);border-radius:8px}.leaflet-popup-tip{background:#0d131b}
+</style>
 </head>
-
 <body>
 
 <header>
-    <h1>ASV MAVROS WEB MONITORING</h1>
+  <div class="brand"><div class="glyph">◈</div>
+    <div><h1>ASV Mission Monitor</h1><div class="sub">RTK · LOS Guidance · Telemetry</div></div></div>
+  <div class="hud"><div class="clock mono" id="clock">--:--:--</div>
+    <div class="conn"><span class="dot" id="condot"></span><span id="constat">Menunggu</span></div></div>
 </header>
 
-<div class="container">
+<div class="layout">
+  <aside class="rail">
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-
-        <!-- GPS -->
-        <div class="card">
-
-            <h2>GPS</h2>
-
-            <p>Latitude</p>
-            <div class="value" id="lat">
-                0
-            </div>
-
-            <br>
-
-            <p>Longitude</p>
-            <div class="value" id="lon">
-                0
-            </div>
-
-        </div>
-
-        <!-- MODE -->
-        <div class="card">
-
-            <h2>Status</h2>
-
-            <p>Mode</p>
-            <div class="value" id="mode">
-                UNKNOWN
-            </div>
-
-            <br>
-
-            <p>Armed</p>
-            <div class="value status-disarmed"
-                 id="armed">
-                 DISARMED
-            </div>
-
-        </div>
-
-        <!-- BATTERY -->
-        <div class="card">
-
-            <h2>Battery</h2>
-
-            <div class="value">
-                <span id="battery">0</span> %
-            </div>
-
-        </div>
-
-        <!-- SPEED -->
-        <div class="card">
-
-            <h2>Speed</h2>
-
-            <div class="value">
-                <span id="speed">0</span> m/s
-            </div>
-
-        </div>
-
-        <!-- HEADING -->
-        <div class="card">
-
-            <h2>Heading</h2>
-
-            <div class="value">
-                <span id="heading">0</span> °
-            </div>
-
-        </div>
-
+    <div class="card">
+      <div class="lbl">Cross-Track Error</div>
+      <div><span class="xte-num mono" id="xte">--</span><span class="xte-unit">m</span></div>
+      <div class="xte-state" id="xte-state" style="color:var(--muted)">menunggu data</div>
+      <div class="bar"><div class="fill" id="xte-fill"></div><div class="thr" id="xte-thr"></div></div>
+      <div class="thr-tag">ambang lulus · 0.30 m</div>
+      <div class="ministats">
+        <div class="ministat"><div class="mk">maks</div><div class="mv mono" id="xte-max">--</div></div>
+        <div class="ministat"><div class="mk">rata-rata</div><div class="mv mono" id="xte-mean">--</div></div></div>
+      <canvas id="spark"></canvas>
     </div>
 
-    <!-- MAP -->
-    <div id="map"></div>
+    <div class="card">
+      <div class="lbl">Error per Waypoint</div>
+      <div class="wptbl-wrap">
+        <table class="wptbl"><thead><tr><th>WP</th><th>Jenis</th><th>Error</th></tr></thead>
+        <tbody id="wp-body"></tbody></table>
+      </div>
+      <button class="btn-dl" id="b-csv">⤓ Unduh CSV</button>
+    </div>
 
+    <div class="card">
+      <div class="lbl">Progres Misi</div>
+      <div class="row"><span class="k">Lintasan</span><span class="v mono"><span id="prog">0</span> %</span></div>
+      <div class="bar"><div class="fill" id="prog-fill"></div></div>
+      <div class="row" style="margin-top:12px"><span class="k">Gerbang terdekat</span><span class="v mono"><span id="gdist">--</span> m</span></div>
+    </div>
+
+    <div class="card">
+      <div class="lbl">Status Navigasi</div>
+      <div class="row"><span class="k">Mode</span><span class="v mono" id="mode">UNKNOWN</span></div>
+      <div class="row" style="margin-top:12px"><span class="k">Sistem</span>
+        <span class="pill disarmed" id="armed"><span class="pdot"></span>Disarmed</span></div>
+    </div>
+
+    <div class="card">
+      <div class="lbl">Posisi (RTK)</div>
+      <div class="row"><span class="k">Lintang</span><span class="v mono" id="lat">0.000000</span></div>
+      <div class="row"><span class="k">Bujur</span><span class="v mono" id="lon">0.000000</span></div>
+    </div>
+
+    <div class="card">
+      <div class="lbl">Kinematika</div>
+      <div class="kin"><div class="stats">
+          <div class="row"><span class="k">Laju</span><span class="v mono"><span id="speed">0.00</span> m/s</span></div>
+          <div class="bar" style="margin-top:4px;margin-bottom:10px"><div class="fill" id="speed-fill"></div></div>
+          <div class="row"><span class="k">Heading</span><span class="v mono"><span id="hdg">0</span>°</span></div></div>
+        <svg class="compass" viewBox="0 0 100 100">
+          <circle class="card-ring" cx="50" cy="50" r="44"/>
+          <g class="tick"><line x1="50" y1="6" x2="50" y2="14"/><line x1="50" y1="86" x2="50" y2="94"/>
+            <line x1="6" y1="50" x2="14" y2="50"/><line x1="86" y1="50" x2="94" y2="50"/></g>
+          <text x="50" y="22" text-anchor="middle">N</text><text x="50" y="84" text-anchor="middle">S</text>
+          <text x="82" y="53" text-anchor="middle">E</text><text x="18" y="53" text-anchor="middle">W</text>
+          <g class="needle" id="needle" style="transform-origin:50px 50px">
+            <polygon points="50,16 45,52 55,52" fill="var(--accent)"/><polygon points="50,84 45,52 55,52" fill="var(--dim)"/>
+            <circle cx="50" cy="52" r="3.5" fill="var(--text)"/></g></svg></div>
+    </div>
+
+  </aside>
+
+  <div style="position:relative">
+    <div id="map"></div>
+    <div class="mapctl">
+      <button class="btn on" id="b-follow"><span class="ic">⊕</span>Ikuti kapal</button>
+      <button class="btn" id="b-center"><span class="ic">◎</span>Pusatkan</button>
+      <button class="btn" id="b-clear"><span class="ic">⌫</span>Bersihkan jejak</button>
+      <button class="btn on" id="b-ref"><span class="ic">⋯</span>Jalur acuan</button>
+      <button class="btn on" id="b-gate"><span class="ic">●</span>Gerbang</button>
+      <button class="btn on" id="b-err"><span class="ic">⟂</span>Vektor error</button>
+      <button class="btn" id="b-base"><span class="ic">▦</span>Peta jalan</button>
+      <button class="btn" id="b-measure"><span class="ic">⤡</span>Ukur jarak</button>
+    </div>
+    <div class="readout" id="measure-out">Klik dua titik untuk mengukur</div>
+    <div class="legend">
+      <div class="li"><span class="sw" style="background:var(--accent)"></span>Jejak kapal</div>
+      <div class="li"><span class="sw" style="background:#8aa0b5"></span>Jalur acuan</div>
+      <div class="li"><span class="sw" style="background:var(--amber);width:10px;height:10px;border-radius:50%"></span>Gerbang buoy</div>
+      <div class="li"><span class="sw" style="background:var(--red)"></span>Vektor error (target→aktual)</div>
+    </div>
+  </div>
 </div>
 
 <script>
+// ====== ACUAN (ganti bila waypoint final berubah) ======
+const REFERENCE_WAYPOINTS = [
+  {lat:-6.97296528, lon:107.63037888, gate:false},
+  {lat:-6.97298310, lon:107.63037659, gate:true},
+  {lat:-6.97301969, lon:107.63037190, gate:true},
+  {lat:-6.97303904, lon:107.63037131, gate:false},
+  {lat:-6.97304848, lon:107.63037836, gate:false},
+  {lat:-6.97305439, lon:107.63039166, gate:true},
+  {lat:-6.97305226, lon:107.63041316, gate:false},
+  {lat:-6.97305385, lon:107.63042915, gate:true},
+  {lat:-6.97302171, lon:107.63044685, gate:true},
+  {lat:-6.97299196, lon:107.63044938, gate:true},
+  {lat:-6.97297406, lon:107.63045090, gate:false},
+];
+const XTE_LIMIT=0.30, $=id=>document.getElementById(id);
 
-    // =====================================================
-    // SOCKET
-    // =====================================================
+const ctr=REFERENCE_WAYPOINTS.reduce((a,w)=>[a[0]+w.lat,a[1]+w.lon],[0,0]).map(v=>v/REFERENCE_WAYPOINTS.length);
+const map=L.map('map',{zoomControl:false}).setView(ctr,19);
+L.control.zoom({position:'topright'}).addTo(map);
+const sat=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:22,maxNativeZoom:19,attribution:'Esri'}).addTo(map);
+const street=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:22,attribution:'OSM'});
+let baseSat=true;
 
-    const socket = io();
+const refLine=L.polyline(REFERENCE_WAYPOINTS.map(w=>[w.lat,w.lon]),{color:'#8aa0b5',weight:2,dashArray:'7 7',opacity:.85}).addTo(map);
+const gateGroup=L.layerGroup().addTo(map); const gateLL=[]; let gn=0;
+REFERENCE_WAYPOINTS.filter(w=>w.gate).forEach(w=>{gn++;gateLL.push([w.lat,w.lon]);
+  L.marker([w.lat,w.lon],{icon:L.divIcon({className:'',html:'<div class="gate-dot"></div>',iconSize:[11,11]})})
+   .bindPopup('Gerbang '+gn+'<br>'+w.lat.toFixed(6)+', '+w.lon.toFixed(6)).addTo(gateGroup);});
+const gateHi=L.circleMarker(ctr,{radius:15,color:'#2fe0c0',weight:2,fill:false,opacity:0}).addTo(map);
 
-    // =====================================================
-    // MAP
-    // =====================================================
+const trail=L.polyline([],{color:'#2fe0c0',weight:3.5,opacity:.95}).addTo(map);
+const boat=L.marker(ctr,{icon:L.divIcon({className:'',iconSize:[34,34],html:
+  '<div class="boat-marker"><div class="boat-pulse"></div><div class="boat-arrow"><svg viewBox="0 0 24 24"><path d="M12 2 L19 21 L12 16 L5 21 Z" fill="#2fe0c0" stroke="#04201b" stroke-width="1"/></svg></div></div>'})}).addTo(map);
+let trailPts=[],firstFix=true,follow=true;
 
-    const map = L.map('map').setView(
-        [-6.0, 107.0],
-        18
-    );
+// ====== statistik per-waypoint (target vs aktual) ======
+const wpStats=REFERENCE_WAYPOINTS.map((w,i)=>({i:i,lat:w.lat,lon:w.lon,gate:w.gate,minDist:Infinity,actLat:null,actLon:null}));
+const errGroup=L.layerGroup().addTo(map);
+const errVis=wpStats.map(s=>{
+  const line=L.polyline([[s.lat,s.lon],[s.lat,s.lon]],{color:'#ff5f5f',weight:1.5,dashArray:'3 4',opacity:.85}).addTo(errGroup);
+  const mk=L.circleMarker([s.lat,s.lon],{radius:3,color:'#ff5f5f',fillColor:'#ff5f5f',fillOpacity:1,opacity:0}).addTo(errGroup);
+  return {line,mk};
+});
+// bangun baris tabel
+const body=$('wp-body');
+wpStats.forEach(s=>{
+  const tr=document.createElement('tr'); if(s.gate)tr.className='gate';
+  tr.innerHTML=`<td>WP${s.i}</td><td class="tag">${s.gate?'gerbang':'waypoint'}</td><td class="mono" id="err-${s.i}">—</td>`;
+  body.appendChild(tr);
+});
 
-    L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        {
-            attribution:
-            '&copy; OpenStreetMap Contributors'
-        }
-    ).addTo(map);
+// ====== geometri (meter) ======
+const R=6371000,rad=Math.PI/180;
+function toXY(lat,lon){return [lon*rad*R*Math.cos(ctr[0]*rad),lat*rad*R];}
+const refXY=REFERENCE_WAYPOINTS.map(w=>toXY(w.lat,w.lon));
+const segLen=[],cum=[0];for(let i=0;i<refXY.length-1;i++){const l=Math.hypot(refXY[i+1][0]-refXY[i][0],refXY[i+1][1]-refXY[i][1]);segLen.push(l);cum.push(cum[i]+l);}
+const totalLen=cum[cum.length-1];
+function projData(lat,lon){const p=toXY(lat,lon);let best={d:1e9,s:0};
+  for(let i=0;i<refXY.length-1;i++){const a=refXY[i],b=refXY[i+1],dx=b[0]-a[0],dy=b[1]-a[1],l2=dx*dx+dy*dy;
+    let t=l2?((p[0]-a[0])*dx+(p[1]-a[1])*dy)/l2:0;t=Math.max(0,Math.min(1,t));
+    const d=Math.hypot(p[0]-(a[0]+t*dx),p[1]-(a[1]+t*dy));if(d<best.d)best={d:d,s:cum[i]+t*segLen[i]};}
+  return best;}
+function distM(lat1,lon1,lat2,lon2){const a=toXY(lat1,lon1),b=toXY(lat2,lon2);return Math.hypot(b[0]-a[0],b[1]-a[1]);}
 
-    // =====================================================
-    // ICON
-    // =====================================================
+// ====== statistik XTE + sparkline ======
+let hist=[],xMax=0,xSum=0,xN=0;
+const cv=$('spark'),cx=cv.getContext('2d');
+function drawSpark(){const w=cv.width=cv.clientWidth*2,h=cv.height=54*2;cx.clearRect(0,0,w,h);
+  const max=Math.max(0.6,...hist,XTE_LIMIT*1.5),y=v=>h-(v/max)*h;
+  cx.strokeStyle='rgba(243,179,43,.55)';cx.setLineDash([6,6]);cx.lineWidth=2;cx.beginPath();cx.moveTo(0,y(XTE_LIMIT));cx.lineTo(w,y(XTE_LIMIT));cx.stroke();cx.setLineDash([]);
+  if(hist.length>1){cx.beginPath();hist.forEach((v,i)=>{const X=i/(hist.length-1)*w;i?cx.lineTo(X,y(v)):cx.moveTo(X,y(v));});
+    cx.strokeStyle='#2fe0c0';cx.lineWidth=3;cx.lineJoin='round';cx.stroke();cx.lineTo(w,h);cx.lineTo(0,h);cx.closePath();cx.fillStyle='rgba(47,224,192,.10)';cx.fill();}}
+window.addEventListener('resize',drawSpark);drawSpark();
+setInterval(()=>{$('clock').textContent=new Date().toLocaleTimeString('id-ID',{hour12:false});},1000);
 
-    const boatIcon = L.icon({
+// ====== kontrol ======
+$('b-follow').onclick=e=>{follow=!follow;e.currentTarget.classList.toggle('on',follow);};
+$('b-center').onclick=()=>{map.setView(boat.getLatLng(),Math.max(map.getZoom(),20));};
+$('b-clear').onclick=()=>{trailPts=[];trail.setLatLngs([]);hist=[];xMax=0;xSum=0;xN=0;$('xte-max').textContent='--';$('xte-mean').textContent='--';drawSpark();
+  // reset error per-waypoint juga (untuk run baru)
+  wpStats.forEach((s,i)=>{s.minDist=Infinity;s.actLat=null;s.actLon=null;$('err-'+i).textContent='—';$('err-'+i).className='mono';
+    errVis[i].line.setLatLngs([[s.lat,s.lon],[s.lat,s.lon]]);errVis[i].mk.setStyle({opacity:0});});};
+$('b-ref').onclick=e=>{const on=map.hasLayer(refLine);on?map.removeLayer(refLine):map.addLayer(refLine);e.currentTarget.classList.toggle('on',!on);};
+$('b-gate').onclick=e=>{const on=map.hasLayer(gateGroup);on?map.removeLayer(gateGroup):map.addLayer(gateGroup);e.currentTarget.classList.toggle('on',!on);};
+$('b-err').onclick=e=>{const on=map.hasLayer(errGroup);on?map.removeLayer(errGroup):map.addLayer(errGroup);e.currentTarget.classList.toggle('on',!on);};
+$('b-base').onclick=e=>{baseSat=!baseSat;if(baseSat){map.removeLayer(street);map.addLayer(sat);e.currentTarget.innerHTML='<span class="ic">▦</span>Peta jalan';}else{map.removeLayer(sat);map.addLayer(street);e.currentTarget.innerHTML='<span class="ic">▦</span>Satelit';}};
+map.on('dragstart',()=>{follow=false;$('b-follow').classList.remove('on');});
 
-        iconUrl:
-        'https://cdn-icons-png.flaticon.com/512/595/595067.png',
+// ====== alat ukur jarak ======
+let measureMode=false,mPts=[],mLine=L.polyline([],{color:'#f3b32b',weight:2,dashArray:'4 5'}).addTo(map),mMarks=L.layerGroup().addTo(map);
+$('b-measure').onclick=e=>{measureMode=!measureMode;e.currentTarget.classList.toggle('on',measureMode);const out=$('measure-out');out.style.display=measureMode?'block':'none';
+  if(!measureMode){mPts=[];mLine.setLatLngs([]);mMarks.clearLayers();}else{out.textContent='Klik dua titik untuk mengukur';}};
+map.on('click',ev=>{if(!measureMode)return;mPts.push([ev.latlng.lat,ev.latlng.lng]);mLine.setLatLngs(mPts);
+  L.circleMarker(ev.latlng,{radius:4,color:'#f3b32b',fillOpacity:1}).addTo(mMarks);
+  if(mPts.length>=2){let ds=0;for(let i=0;i<mPts.length-1;i++)ds+=distM(mPts[i][0],mPts[i][1],mPts[i+1][0],mPts[i+1][1]);
+    $('measure-out').textContent='Jarak: '+ds.toFixed(2)+' m  ('+mPts.length+' titik) — tombol untuk reset';}});
 
-        iconSize: [50, 50],
+// ====== unduh CSV ======
+$('b-csv').onclick=()=>{
+  const rows=[['wp','jenis','target_lat','target_lon','aktual_lat','aktual_lon','error_m','lulus_0.30m']];
+  wpStats.forEach(s=>{const has=isFinite(s.minDist);
+    rows.push([s.i, s.gate?'gerbang':'waypoint', s.lat.toFixed(8), s.lon.toFixed(8),
+      has?s.actLat.toFixed(8):'', has?s.actLon.toFixed(8):'', has?s.minDist.toFixed(3):'',
+      has?(s.minDist<=XTE_LIMIT?'ya':'tidak'):'']);});
+  const csv=rows.map(r=>r.join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='error_per_waypoint_'+new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+};
 
-        iconAnchor: [25, 25]
-    });
+// ====== socket ======
+const socket=io();
+function setConn(l){$('condot').classList.toggle('live',l);$('constat').textContent=l?'Terhubung':'Terputus';}
+socket.on('connect',()=>setConn(true));socket.on('disconnect',()=>setConn(false));
 
-    // =====================================================
-    // MARKER
-    // =====================================================
+socket.on('gps',d=>{
+  const lat=d.latitude,lon=d.longitude;if(!lat&&!lon)return;
+  $('lat').textContent=lat.toFixed(7);$('lon').textContent=lon.toFixed(7);
+  boat.setLatLng([lat,lon]);
+  if(firstFix){map.setView([lat,lon],20);firstFix=false;}else if(follow){map.panTo([lat,lon],{animate:true,duration:.4});}
+  trailPts.push([lat,lon]);if(trailPts.length>4000)trailPts.shift();trail.setLatLngs(trailPts);
 
-    let marker = L.marker(
-        [-6.0, 107.0],
-        {
-            icon: boatIcon
-        }
-    ).addTo(map);
+  // cross-track error
+  const pd=projData(lat,lon),e=pd.d;
+  $('xte').textContent=e.toFixed(2);
+  const col=e<=XTE_LIMIT?'var(--accent)':e<=0.6?'var(--amber)':'var(--red)';
+  $('xte').style.color=col;const st=$('xte-state');st.style.color=col;
+  st.textContent=e<=XTE_LIMIT?'dalam ambang · lulus':e<=0.6?'mendekati batas':'melewati ambang';
+  const scale=0.9;$('xte-fill').style.width=Math.min(100,e/scale*100)+'%';$('xte-fill').style.background=col;$('xte-thr').style.left=(XTE_LIMIT/scale*100)+'%';
+  xMax=Math.max(xMax,e);xSum+=e;xN++;$('xte-max').textContent=xMax.toFixed(2);$('xte-mean').textContent=(xSum/xN).toFixed(2);
+  hist.push(e);if(hist.length>140)hist.shift();drawSpark();
 
-    // =====================================================
-    // TRAJECTORY
-    // =====================================================
+  // error per waypoint: jejak posisi terdekat ke tiap waypoint
+  wpStats.forEach((s,i)=>{const dd=distM(lat,lon,s.lat,s.lon);
+    if(dd<s.minDist){s.minDist=dd;s.actLat=lat;s.actLon=lon;
+      const cell=$('err-'+i);cell.textContent=dd.toFixed(2)+' m';
+      cell.className='mono '+(s.gate?(dd<=XTE_LIMIT?'err-good':dd<=0.6?'err-warn':'err-bad'):'');
+      errVis[i].line.setLatLngs([[s.lat,s.lon],[lat,lon]]);errVis[i].mk.setLatLng([lat,lon]).setStyle({opacity:1});}});
 
-    let path = [];
+  // progres + gerbang terdekat
+  const prog=Math.max(0,Math.min(100,pd.s/totalLen*100));$('prog').textContent=Math.round(prog);$('prog-fill').style.width=prog+'%';
+  let gm=1e9,gll=null;gateLL.forEach(g=>{const dd=distM(lat,lon,g[0],g[1]);if(dd<gm){gm=dd;gll=g;}});
+  if(gll){$('gdist').textContent=gm.toFixed(1);gateHi.setLatLng(gll).setStyle({opacity:.9});}
+});
 
-    let polyline = L.polyline(
-        path,
-        {
-            color:'cyan',
-            weight:4
-        }
-    ).addTo(map);
-
-    // =====================================================
-    // GPS UPDATE
-    // =====================================================
-
-    socket.on('gps', function(data){
-
-        console.log("GPS RECEIVED:", data);
-
-        let lat = data.latitude;
-        let lon = data.longitude;
-
-        // Update Text
-        document.getElementById('lat').innerText =
-            lat.toFixed(6);
-
-        document.getElementById('lon').innerText =
-            lon.toFixed(6);
-
-        // Update Marker
-        marker.setLatLng([lat, lon]);
-
-        // Center Map
-        map.setView([lat, lon]);
-
-        // Add Path
-        path.push([lat, lon]);
-
-        polyline.setLatLngs(path);
-
-    });
-
-    // =====================================================
-    // STATE UPDATE
-    // =====================================================
-
-    socket.on('state', function(data){
-
-        document.getElementById('mode').innerText =
-            data.mode;
-
-        let armedElement =
-            document.getElementById('armed');
-
-        if(data.armed){
-
-            armedElement.innerText = "ARMED";
-
-            armedElement.classList.remove(
-                "status-disarmed"
-            );
-
-            armedElement.classList.add(
-                "status-armed"
-            );
-        }
-        else{
-
-            armedElement.innerText = "DISARMED";
-
-            armedElement.classList.remove(
-                "status-armed"
-            );
-
-            armedElement.classList.add(
-                "status-disarmed"
-            );
-        }
-
-    });
-
-    // =====================================================
-    // BATTERY UPDATE
-    // =====================================================
-
-    socket.on('battery', function(data){
-
-        document.getElementById('battery').innerText =
-            data.battery;
-
-    });
-
-    // =====================================================
-    // SPEED UPDATE
-    // =====================================================
-
-    socket.on('speed', function(data){
-
-        document.getElementById('speed').innerText =
-            data.speed;
-
-    });
-
-    // =====================================================
-    // HEADING UPDATE
-    // =====================================================
-
-    socket.on('heading', function(data){
-
-        document.getElementById('heading').innerText =
-            data.heading;
-
-    });
-
+socket.on('state',d=>{$('mode').textContent=d.mode||'UNKNOWN';const a=$('armed');
+  if(d.armed){a.className='pill armed';a.innerHTML='<span class="pdot"></span>Armed';}else{a.className='pill disarmed';a.innerHTML='<span class="pdot"></span>Disarmed';}});
+socket.on('speed',d=>{$('speed').textContent=d.speed.toFixed(2);$('speed-fill').style.width=Math.min(100,d.speed/2*100)+'%';});
+socket.on('heading',d=>{const h=((d.heading%360)+360)%360;$('hdg').textContent=Math.round(h);
+  $('needle').style.transform=`rotate(${h}deg)`;const el=boat.getElement();if(el){const ar=el.querySelector('.boat-arrow');if(ar)ar.style.transform=`rotate(${h}deg)`;}});
 </script>
-
 </body>
 </html>
