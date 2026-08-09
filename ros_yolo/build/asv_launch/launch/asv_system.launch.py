@@ -1,1 +1,0 @@
-/home/salamut/asv_2025/ros_yolo/src/asv_launch/launch/asv_system.launch.py

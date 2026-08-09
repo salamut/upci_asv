@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<!--
+  Katamaran ASV 0.75 m x 0.45 m.
+  ================= PARAMETER YANG BOLEH DI-TUNING =================
+  - Massa kapal        : <mass> pada base_link (default 5 kg; kisaran nyata 4-6 kg)
+  - Gaya dorong maks   : <max_thrust> pada plugin AsvJsonBridge (N per motor,
+                         pada simpangan PWM penuh +/-400 us dari 1500)
+  - Drag hidrodinamika : koefisien xUabsU (surge), yVabsV (sway), nRabsR (yaw)
+                         pada plugin Hydrodynamics — makin negatif makin "kental"
+  - Arus air konstan   : <current_force_x/y> pada plugin AsvJsonBridge (N, ENU; default 0)
+  ==================================================================
+  Geometri: origin model di tengah kapal; z=0 kira-kira garis air saat diam.
+  Dua lambung boks 0.75x0.10x0.10 -> displasemen penuh 15 kg; kapal 5 kg
+  mengapung dengan sarat (draft) ~3.3 cm.
+-->
+<sdf version="1.9">
+  <model name="asv_boat">
+    <link name="base_link">
+      <inertial>
+        <mass>5.0</mass>
+        <pose>0 0 -0.08 0 0 0</pose>
+        <inertia>
+          <ixx>0.17</ixx><iyy>0.25</iyy><izz>0.30</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+
+      <!-- lambung kiri (port, y+) -->
+      <collision name="hull_port">
+        <pose>0 0.175 -0.05 0 0 0</pose>
+        <geometry><box><size>0.75 0.10 0.10</size></box></geometry>
+      </collision>
+      <visual name="hull_port_v">
+        <pose>0 0.175 -0.05 0 0 0</pose>
+        <geometry><box><size>0.75 0.10 0.10</size></box></geometry>
+        <material><ambient>0.9 0.6 0.1 1</ambient><diffuse>0.9 0.6 0.1 1</diffuse></material>
+      </visual>
+
+      <!-- lambung kanan (starboard, y-) -->
+      <collision name="hull_stbd">
+        <pose>0 -0.175 -0.05 0 0 0</pose>
+        <geometry><box><size>0.75 0.10 0.10</size></box></geometry>
+      </collision>
+      <visual name="hull_stbd_v">
+        <pose>0 -0.175 -0.05 0 0 0</pose>
+        <geometry><box><size>0.75 0.10 0.10</size></box></geometry>
+        <material><ambient>0.9 0.6 0.1 1</ambient><diffuse>0.9 0.6 0.1 1</diffuse></material>
+      </visual>
+
+      <!-- dek penghubung (visual saja, massa sudah di inertial) -->
+      <visual name="deck_v">
+        <pose>0 0 0.015 0 0 0</pose>
+        <geometry><box><size>0.45 0.42 0.03</size></box></geometry>
+        <material><ambient>0.2 0.2 0.25 1</ambient><diffuse>0.2 0.2 0.25 1</diffuse></material>
+      </visual>
+      <!-- penanda haluan agar arah terlihat -->
+      <visual name="bow_v">
+        <pose>0.33 0 0.045 0 0 0</pose>
+        <geometry><box><size>0.09 0.06 0.03</size></box></geometry>
+        <material><ambient>0.9 0.1 0.1 1</ambient><diffuse>0.9 0.1 0.1 1</diffuse></material>
+      </visual>
+    </link>
+
+    <!-- propeler kiri: silinder kecil di buritan lambung kiri, sumbu x (maju) -->
+    <link name="left_prop">
+      <pose>-0.36 0.20 -0.07 0 1.5707963 0</pose>
+      <inertial>
+        <mass>0.02</mass>
+        <inertia><ixx>1e-5</ixx><iyy>1e-5</iyy><izz>1e-5</izz>
+                 <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+      </inertial>
+      <visual name="v">
+        <geometry><cylinder><radius>0.025</radius><length>0.02</length></cylinder></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+    </link>
+    <joint name="left_prop_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>left_prop</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+      </axis>
+      <pose>0 0 0 0 -1.5707963 0</pose>
+    </joint>
+
+    <!-- propeler kanan -->
+    <link name="right_prop">
+      <pose>-0.36 -0.20 -0.07 0 1.5707963 0</pose>
+      <inertial>
+        <mass>0.02</mass>
+        <inertia><ixx>1e-5</ixx><iyy>1e-5</iyy><izz>1e-5</izz>
+                 <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+      </inertial>
+      <visual name="v">
+        <geometry><cylinder><radius>0.025</radius><length>0.02</length></cylinder></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+    </link>
+    <joint name="right_prop_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>right_prop</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+      </axis>
+      <pose>0 0 0 0 -1.5707963 0</pose>
+    </joint>
+
+    <!-- Thruster bawaan Gazebo: gaya sepanjang sumbu joint pada link propeler.
+         Topic: /model/asv_boat/joint/{left,right}_prop_joint/cmd_thrust (N). -->
+    <plugin filename="ignition-gazebo-thruster-system"
+            name="ignition::gazebo::systems::Thruster">
+      <namespace>asv_boat</namespace>
+      <joint_name>left_prop_joint</joint_name>
+      <fluid_density>1000</fluid_density>
+      <propeller_diameter>0.05</propeller_diameter>
+      <thrust_coefficient>0.02</thrust_coefficient>
+      <velocity_control>true</velocity_control>
+    </plugin>
+    <plugin filename="ignition-gazebo-thruster-system"
+            name="ignition::gazebo::systems::Thruster">
+      <namespace>asv_boat</namespace>
+      <joint_name>right_prop_joint</joint_name>
+      <fluid_density>1000</fluid_density>
+      <propeller_diameter>0.05</propeller_diameter>
+      <thrust_coefficient>0.02</thrust_coefficient>
+      <velocity_control>true</velocity_control>
+    </plugin>
+
+    <!-- Hidrodinamika: added mass (xDotU dst.) + drag kuadratik (xUabsU dst.).
+         Nilai negatif = melawan gerak. Tuning utama: xUabsU (kecepatan jelajah)
+         dan nRabsR (redaman yaw / anti putar-putar). -->
+    <plugin filename="ignition-gazebo-hydrodynamics-system"
+            name="ignition::gazebo::systems::Hydrodynamics">
+      <link_name>base_link</link_name>
+      <water_density>1000</water_density>
+      <xDotU>0</xDotU>
+      <yDotV>0</yDotV>
+      <zDotW>0</zDotW>
+      <kDotP>0</kDotP>
+      <mDotQ>0</mDotQ>
+      <nDotR>0</nDotR>
+      <xUabsU>-6.0</xUabsU>
+      <yVabsV>-60.0</yVabsV>
+      <zWabsW>-50.0</zWabsW>
+      <kPabsP>-5.0</kPabsP>
+      <mQabsQ>-8.0</mQabsQ>
+      <nRabsR>-0.55</nRabsR>
+    </plugin>
+
+    <!-- Jembatan ArduPilot SITL (JSON) — lihat plugin/AsvJsonBridge.cc -->
+    <plugin filename="AsvJsonBridge" name="asv::AsvJsonBridge">
+      <link_name>base_link</link_name>
+      <port>9002</port>
+      <servo_left_index>0</servo_left_index>   <!-- SERVO1 = ThrottleLeft  -->
+      <servo_right_index>2</servo_right_index> <!-- SERVO3 = ThrottleRight -->
+      <max_thrust>7.0</max_thrust>             <!-- N per motor pada PWM penuh -->
+      <pwm_trim>1500</pwm_trim>
+      <pwm_range>400</pwm_range>
+      <pwm_deadband>20</pwm_deadband>
+      <left_joint>left_prop_joint</left_joint>
+      <right_joint>right_prop_joint</right_joint>
+      <!-- arus air konstan (N, kerangka dunia ENU; x=Timur, y=Utara) -->
+      <current_force_x>0.0</current_force_x>
+      <current_force_y>0.0</current_force_y>
+      <!-- hidrostatika 8 titik (dimensi harus cocok dengan geometri lambung) -->
+      <hydrostatics>true</hydrostatics>
+      <hull_length>0.75</hull_length>
+      <hull_width>0.10</hull_width>
+      <hull_height>0.10</hull_height>
+      <hull_offset_y>0.175</hull_offset_y>
+      <hull_top_z>0.0</hull_top_z>
+      <water_level>0.0</water_level>
+      <heave_damping_per_point>15.0</heave_damping_per_point>
+    </plugin>
+  </model>
+</sdf>

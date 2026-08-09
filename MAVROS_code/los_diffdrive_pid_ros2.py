@@ -38,25 +38,31 @@ THROTTLE_STOP  = 1500      # netral / berhenti
 
 # ---------- kemudi (PWM) ----------
 STEER_NEUTRAL  = 1500
-STEER_MAX      = 400       # batas simpang kemudi -> 1100..1900
+STEER_MAX      = 300       # batas simpang kemudi (diperkecil agar belok lebih lembut)
 STEER_SIGN     = 1         # BALIK ke -1 bila kapal berbelok ke arah yang salah
 
 # ---------- PID atas error sudut (deg) -> satuan PWM ----------
-KP             = 8.0       # PWM per derajat error
-KI             = 0.6
-KD             = 2.5
+KP             = 4.0       # PWM per derajat error (DITURUNKAN dari 8: belok lebih lembut)
+KI             = 0.2       # KECIL: SITL tak ber-arus, KI besar -> overshoot. Naikkan di lapangan bila ada arus.
+KD             = 4.0       # dinaikkan: peredam laju-yaw lebih kuat melawan ayunan
 I_LIMIT        = STEER_MAX # batas suku integral (anti-windup) dalam satuan PWM
 DERIV_LP       = 0.3       # koefisien filter low-pass turunan (0..1; kecil = lebih halus)
+
+# ---------- pelembut (anti belok mendadak) ----------
+TURN_RATE_MAX  = 120.0      # deg/s: batas laju sapuan HEADING TUJUAN (pelembut setpoint)
+STEER_SLEW     = 800.0     # PWM/s: dilonggarkan -- kelembutan kini dari gain, bukan rate-limit
 
 # ---------- umpan balik arah ----------
 USE_COG        = False     # True = pakai COG (arah gerak GPS); False = heading kompas
 MIN_SPEED_COG  = 0.3       # m/s; di bawah ini COG tidak andal -> pakai heading
 
 # ---------- guidance ----------
-LOOKAHEAD      = 1.5
-ACCEPT_RADIUS  = 0.25
+LOOKAHEAD      = 2.5
+ACCEPT_RADIUS  = 0.65
+FINAL_RADIUS   = 0.30      # radius capai titik AKHIR (lead-out): dihampiri langsung, bukan dilewati
+FINAL_OVERSHOOT = 1.0      # bila terlanjur lewat sejauh ini (m), berhenti homing (pengaman)
 LOOP_HZ        = 10.0
-GATE_IDX       = [1, 2, 5, 7, 8, 9]   # sesuai reference_with_gates.plan (lead-in/out)
+GATE_IDX = [1, 2, 4, 6, 8, 9]  # +2 WP perantara disisipkan antara WP7 dan WP8 (sudut kanan-bawah)
 XTE_LIMIT      = 0.30
 HDG_LIMIT      = 10.0
 CSV_PATH       = "/tmp/los_diffdrive_log.csv"
@@ -89,9 +95,11 @@ class DiffDrivePID(Node):
         self.x = self.y = 0.0; self.origin = None; self.have_fix = False
         self.idx = 0; self.ready = False; self.tick = 0
         self.phase = "TO_START"; self.finished = False
-        self.gate_min = {}; self.gate_done = {}
+        self.gate_min = {}; self.gate_done = {}; self.start_min = float("inf")
         # state PID (turunan dihitung pada PENGUKURAN heading, bukan error)
         self.integ = 0.0; self.prev_meas = None; self.prev_t = None; self.deriv_filt = 0.0
+        # state pelembut: heading tujuan ter-rate-limit & kemudi terakhir
+        self.des_filt = None; self.steer_cmd = float(STEER_NEUTRAL)
 
         self.create_subscription(State, "/mavros/state",
                                  lambda m: setattr(self, "state", m), qos_profile_sensor_data)
@@ -145,17 +153,24 @@ class DiffDrivePID(Node):
     # ---- PID atas error sudut -> steering PWM + campuran diferensial ----
     def pid_to_rc(self, des_compass):
         cur, src = self.current_dir()
-        err = wrap180(des_compass - cur)
         now = time.time()
+        dt = max(now - self.prev_t, 1e-3) if self.prev_t is not None else (1.0 / LOOP_HZ)
 
-        # Turunan pada PENGUKURAN (heading), bukan pada error.
-        # Maka loncatan setpoint chi_d saat transisi waypoint TIDAK menimbulkan
-        # derivative kick. Tanda negatif: d(e)/dt = -d(ukuran)/dt.
+        # 1) PELEMBUT SETPOINT: batasi laju sapuan heading tujuan (deg/s).
+        #    Loncatan chi_d saat transisi/koreksi besar diubah jadi sapuan bertahap,
+        #    sehingga error tidak meloncat -> suku P tidak menyentak.
+        if self.des_filt is None:
+            self.des_filt = des_compass
+        else:
+            step = clamp(wrap180(des_compass - self.des_filt),
+                         -TURN_RATE_MAX * dt, TURN_RATE_MAX * dt)
+            self.des_filt = (self.des_filt + step) % 360.0
+        err = wrap180(self.des_filt - cur)
+
+        # 2) Turunan pada PENGUKURAN (heading), bukan error -> kebal loncatan setpoint.
         if self.prev_t is None or self.prev_meas is None:
-            dt = 1.0 / LOOP_HZ
             deriv = 0.0                     # tick pertama: paksa turunan nol
         else:
-            dt = max(now - self.prev_t, 1e-3)
             dpsi = wrap180(cur - self.prev_meas)        # perubahan heading (di-wrap)
             raw = -dpsi / dt
             self.deriv_filt = (1 - DERIV_LP) * self.deriv_filt + DERIV_LP * raw  # low-pass
@@ -169,13 +184,19 @@ class DiffDrivePID(Node):
         u = KP * err + KI * self.integ + KD * deriv
         self.prev_meas = cur; self.prev_t = now
 
-        steer = clamp(STEER_NEUTRAL + STEER_SIGN * u, STEER_NEUTRAL - STEER_MAX,
-                      STEER_NEUTRAL + STEER_MAX)
+        steer_raw = clamp(STEER_NEUTRAL + STEER_SIGN * u, STEER_NEUTRAL - STEER_MAX,
+                          STEER_NEUTRAL + STEER_MAX)
+        # 3) PELEMBUT KELUARAN: batasi laju perubahan kemudi (slew-rate, PWM/detik).
+        dmax = STEER_SLEW * dt
+        steer = self.steer_cmd + clamp(steer_raw - self.steer_cmd, -dmax, dmax)
+        self.steer_cmd = steer
+
         # campuran diferensial (untuk pencatatan; ArduPilot yang mencampur sebenarnya)
         turn = (steer - STEER_NEUTRAL) / STEER_MAX            # -1..1
-        diff = turn * (THROTTLE_PWM - THROTTLE_STOP)
-        kiri  = int(clamp(THROTTLE_PWM - diff, 1100, 1900))
-        kanan = int(clamp(THROTTLE_PWM + diff, 1100, 1900))
+        MAX_DIFF = 150 
+        diff = turn * MAX_DIFF
+        kiri  = int(clamp(THROTTLE_PWM - diff, 1300, 1700))
+        kanan = int(clamp(THROTTLE_PWM + diff, 1300, 1700))
         return int(steer), err, src, kiri, kanan
 
     def send_rc(self, steer, thr):
@@ -187,9 +208,10 @@ class DiffDrivePID(Node):
         self.rc_pub.publish(m)
 
     def reset_pid(self):
-        # reset saat ganti waypoint: bersihkan integral & turunan; prev_t=None
-        # membuat tick berikutnya berturunan nol -> tidak ada derivative kick.
-        self.integ = 0.0; self.prev_meas = None; self.prev_t = None; self.deriv_filt = 0.0
+        # Hanya integral yang direset agar bias segmen lama tak terbawa.
+        # State turunan & pelembut (des_filt, steer_cmd) DIBIARKAN kontinu supaya
+        # transisi waypoint tetap mulus -- tidak ada loncatan kemudi.
+        self.integ = 0.0
 
     def ensure_manual_armed(self):
         self.send_rc(STEER_NEUTRAL, THROTTLE_STOP)
@@ -209,12 +231,16 @@ class DiffDrivePID(Node):
         if not self.ready:
             self.ensure_manual_armed(); return
 
-        # fase menuju WP awal
+        # fase menuju WP awal (lead-in): hampiri WP0, lalu mulai begitu kapal MELEWATINYA
         if self.phase == "TO_START":
             d0 = math.hypot(self.x - self.off[0][0], self.y - self.off[0][1])
-            if d0 < ACCEPT_RADIUS:
+            # proyeksi posisi pada arah segmen pertama (WP0->WP1); >=0 berarti sudah melewati WP0
+            sdir = math.atan2(self.off[1][1] - self.off[0][1], self.off[1][0] - self.off[0][0])
+            s0 = (self.x - self.off[0][0]) * math.cos(sdir) + (self.y - self.off[0][1]) * math.sin(sdir)
+            if d0 < ACCEPT_RADIUS or s0 >= 0.0:
                 self.phase = "FOLLOW"; self.idx = 0; self.reset_pid()
-                self.get_logger().info("Sampai WP awal. Mulai mengikuti acuan."); return
+                self.get_logger().info(f"Melewati WP awal (jarak {d0:.2f} m). Mulai mengikuti acuan.")
+                return
             bearing = math.atan2(self.off[0][1] - self.y, self.off[0][0] - self.x)
             des = (90.0 - math.degrees(bearing)) % 360.0
             steer, _, _, _, _ = self.pid_to_rc(des)
@@ -232,19 +258,28 @@ class DiffDrivePID(Node):
             return
 
         chi_d, cross, along, seg = self.los_course()
+        target = self.idx + 1
+        is_final = (target == len(self.off) - 1)   # segmen lead-out menuju titik AKHIR
+
+        # LOS untuk SEMUA segmen (termasuk lead-out). Tidak ada lagi "homing" ke titik
+        # tetap -> kapal tidak berputar-putar mengejar satu titik di air nyata.
         des = (90.0 - math.degrees(chi_d)) % 360.0
         steer, terr, src, kiri, kanan = self.pid_to_rc(des)
 
         # heading error untuk kriteria gerbang (selalu pakai heading lambung)
         herr = wrap180(des - self.hdg)
-        target = self.idx + 1
         if target in GATE_IDX:
             d = math.hypot(self.x - self.off[target][0], self.y - self.off[target][1])
             if target not in self.gate_min or d < self.gate_min[target][0]:
                 self.gate_min[target] = (d, cross, herr)
 
-        reached = math.hypot(self.x - self.off[target][0], self.y - self.off[target][1]) < ACCEPT_RADIUS
-        if reached or along >= seg:
+        dist_t = math.hypot(self.x - self.off[target][0], self.y - self.off[target][1])
+        radius = FINAL_RADIUS if is_final else ACCEPT_RADIUS
+        # 'along >= seg' = kapal sudah MELEWATI garis tegak lurus di waypoint. Syarat ini
+        # selalu tercapai oleh kapal yang bergerak, sehingga mencegah putar-putar (orbit).
+        switch = dist_t < radius or along >= seg
+
+        if switch:
             if target in GATE_IDX and target in self.gate_min:
                 _, xte, he = self.gate_min[target]
                 ok = abs(xte) <= XTE_LIMIT and abs(he) <= HDG_LIMIT
@@ -252,6 +287,8 @@ class DiffDrivePID(Node):
                 self.get_logger().info(
                     f">>> GERBANG WP{target}: XTE={xte:+.2f} m, hdg_err={he:+.0f} deg "
                     f"-> {'LULUS' if ok else 'GAGAL'}")
+            if is_final:
+                self.get_logger().info(f"Mencapai titik akhir WP{target} (jarak {dist_t:.2f} m).")
             self.idx += 1; self.reset_pid()
             self.get_logger().info(f"Pindah ke WP{self.idx}")
             return

@@ -1,0 +1,42 @@
+# Parameter ArduPilot Rover (boat) untuk simulasi Gazebo backend JSON.
+# Dipakai lewat: sim_vehicle.py -v Rover --model JSON:127.0.0.1 --add-param-file=...
+FRAME_CLASS      2        # 2 = boat
+SERVO1_FUNCTION  73       # ThrottleLeft  -> thruster kiri  (pwm[0] di jembatan)
+SERVO3_FUNCTION  74       # ThrottleRight -> thruster kanan (pwm[2] di jembatan)
+SERVO1_MIN       1100
+SERVO1_MAX       1900
+SERVO1_TRIM      1500
+SERVO3_MIN       1100
+SERVO3_MAX       1900
+SERVO3_TRIM      1500
+# Skid-steer: campuran steering(RC1)+throttle(RC3) dilakukan ArduPilot (MANUAL).
+PILOT_STEER_TYPE 0
+# Pre-arm check dimatikan agar simulasi langsung bisa arm (di kapal nyata JANGAN).
+ARMING_CHECK     0
+# EKF3 standar dengan GPS SITL (nyaris tanpa noise ~ RTK).
+AHRS_EKF_TYPE    3
+GPS_TYPE         1
+# Laju stream telemetri serial0. CATATAN: pada ArduPilot 4.8-dev yang dipakai
+# di sini parameter SRx TIDAK berpengaruh (teruji tetap 1 Hz) — laju 10 Hz
+# diminta run_sim.sh lewat layanan /mavros/set_stream_rate. Baris di bawah
+# dibiarkan untuk kompatibilitas versi ArduPilot lama.
+SR0_POSITION     10       # GLOBAL_POSITION_INT (lat/lon + hdg utk compass_hdg)
+SR0_EXTRA1       10       # ATTITUDE
+SR0_EXTRA2       10       # VFR_HUD
+SR0_EXT_STAT     5        # SYS_STATUS, GPS_RAW_INT
+SR0_RC_CHAN      5        # RC_CHANNELS / SERVO_OUTPUT_RAW
+SR0_RAW_SENS     2
+# Terima RC override dari MAVROS (sysid 1). Tanpa ini override diabaikan!
+# (nama lama: SYSID_MYGCS; nama baru >=4.6: MAV_GCS_SYSID — dua-duanya ditulis,
+#  yang tidak dikenal hanya menghasilkan peringatan)
+MAV_GCS_SYSID    1
+SYSID_MYGCS      1
+# Failsafe RC dimatikan: input datang dari RC override MAVROS, bukan RC fisik.
+FS_THR_ENABLE    0
+FS_ACTION        0
+RC1_MIN          1100
+RC1_MAX          1900
+RC1_TRIM         1500
+RC3_MIN          1100
+RC3_MAX          1900
+RC3_TRIM         1500
